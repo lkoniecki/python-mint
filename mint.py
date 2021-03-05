@@ -9,7 +9,11 @@ while True:
     headers = {'Content-Type': 'text/plain',
             'Authorization': "Api-Token " + DT_METRIC_INGEST_TOKEN}
     payload = "curl.test 1"
-    r = requests.post(DT_METRICS_INGEST_URL, headers=headers, data=payload)
-    print(r.text)
+    try:
+        r = requests.post(DT_METRICS_INGEST_URL, headers=headers, data=payload)
+        print(r.text)
+    except requests.exceptions.RequestException as e:
+        print(e)
+
     print("Going sleep...")
     time.sleep(20)

@@ -10,7 +10,7 @@ while True:
             'Authorization': "Api-Token " + DT_METRIC_INGEST_TOKEN}
     payload = "curl.test 1"
     try:
-        r = requests.post(DT_METRICS_INGEST_URL, headers=headers, data=payload)
+        r = requests.post(DT_METRICS_INGEST_URL, headers=headers, data=payload, verify=False)
         print(r.text)
     except requests.exceptions.RequestException as e:
         print(e)

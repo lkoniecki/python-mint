@@ -10,7 +10,7 @@ def read_price(symbol):
     logging.info(f"Getting {url}...")
     try:
         r = requests.get(url)
-        logging.info(r.text)
+        logging.trace(r.text)
         j = json.loads(r.text)
         marketPrice = j["chart"]["result"][0]["meta"]["regularMarketPrice"]
         logging.info(f"{symbol} is {marketPrice}")

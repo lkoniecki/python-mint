@@ -43,14 +43,14 @@ def build_mint_line(symbol, market_price):
 
 
 def main():
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
     dt_metric_ingest_url = os.environ.get('DT_METRICS_INGEST_URL')
     logging.info(dt_metric_ingest_url)
     dt_metric_ingest_token = os.environ.get('DT_METRIC_INGEST_TOKEN')
     logging.info(dt_metric_ingest_token)
 
-    symbols = ["DT", "DDOG", "NEWR", "SPLK"]
+    symbols = ["DT", "DDOG", "NEWR", "SPLK", "NOW"]
 
     while True:
         mint_lines = []
@@ -58,7 +58,7 @@ def main():
             market_price = read_price(symbol)
             line = build_mint_line(symbol=symbol, market_price=market_price)
             mint_lines.append(line)
-        write_metrics(url=dt_metric_ingest_url, token=dt_metric_ingest_token, payload=''.join(mint_lines))
+        write_metrics(url=dt_metric_ingest_url, token=dt_metric_ingest_token, payload='\n'.join(mint_lines))
         logging.info("Going sleep...")
         time.sleep(60)
 

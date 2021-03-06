@@ -10,11 +10,11 @@ def read_price(symbol):
     logging.info(f"Getting {url}...")
     try:
         r = requests.get(url)
-        logging.trace(r.text)
+        logging.debug(r.text)
         j = json.loads(r.text)
-        marketPrice = j["chart"]["result"][0]["meta"]["regularMarketPrice"]
-        logging.info(f"{symbol} is {marketPrice}")
-        return marketPrice
+        market_price = j["chart"]["result"][0]["meta"]["regularMarketPrice"]
+        logging.info(f"{symbol} is {market_price}")
+        return market_price
     except Exception as e:
         logging.error(f"Error reading price from {url}", exc_info=True)
 

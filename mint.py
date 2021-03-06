@@ -43,7 +43,7 @@ def build_mint_line(symbol, market_price):
 
 
 def main():
-    logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
     dt_metric_ingest_url = os.environ.get('DT_METRICS_INGEST_URL')
     logging.info(dt_metric_ingest_url)

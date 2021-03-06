@@ -19,12 +19,11 @@ def read_price(symbol):
         logging.error(f"Error reading price from {url}", exc_info=True)
 
 
-def write_metric(url, token, symbol, market_price):
+def write_metrics(url, token, payload):
     headers = {'Content-Type': 'text/plain',
                'Authorization': "Api-Token " + token}
 
-    payload = f"nasdaq.price,symbol={symbol} {market_price}"
-    logging.debug(f"Writing mint line: {payload}")
+    logging.debug(f"Writing mint lines: {payload}")
     try:
         r = requests.post(url, headers=headers, data=payload, verify=False, allow_redirects=False)
         logging.info(r.text)
@@ -37,6 +36,12 @@ def write_metric(url, token, symbol, market_price):
         logging.error("Error sending MINT metric", exc_info=True)
 
 
+def build_mint_line(symbol, market_price):
+    line = f"nasdaq.price,symbol={symbol} {market_price}"
+    logging.debug(f"MINT line: {line}")
+    return line
+
+
 def main():
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
@@ -45,10 +50,15 @@ def main():
     dt_metric_ingest_token = os.environ.get('DT_METRIC_INGEST_TOKEN')
     logging.info(dt_metric_ingest_token)
 
-    symbol = "DT"
+    symbols = ["DT", "DDOG", "NEWR", "SPLK"]
+
     while True:
-        market_price = read_price(symbol)
-        write_metric(url=dt_metric_ingest_url, token=dt_metric_ingest_token, symbol=symbol, market_price=market_price)
+        mint_lines = []
+        for symbol in symbols:
+            market_price = read_price(symbol)
+            line = build_mint_line(symbol=symbol, market_price=market_price)
+            mint_lines.append(line)
+        write_metrics(url=dt_metric_ingest_url, token=dt_metric_ingest_token, payload=''.join(mint_lines))
         logging.info("Going sleep...")
         time.sleep(60)
 

@@ -16,8 +16,12 @@ def main():
                 'Authorization': "Api-Token " + DT_METRIC_INGEST_TOKEN}
         payload = "curl.test 1"
         try:
-            r = requests.post(DT_METRICS_INGEST_URL, headers=headers, data=payload, verify=False)
+            r = requests.post(DT_METRICS_INGEST_URL, headers=headers, data=payload, verify=False, allow_redirects=False)
             logging.info(r.text)
+            if r.status_code == 302:
+                redirectUrl = r.headers['Location']
+                req2 = requests.post(redirectUrl, headers=headers, data=payload, verify=False, allow_redirects=False)
+                logging.info(req2.text)
         except Exception as e:
             logging.error("Error sending MINT metric", exc_info=True)
 

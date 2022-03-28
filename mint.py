@@ -9,12 +9,18 @@ def read_price(symbol):
     url = f"https://query1.finance.yahoo.com/v7/finance/chart/{symbol}?interval=5m"
     logging.info(f"Getting {url}...")
     try:
-        r = requests.get(url)
-        logging.debug(r.text)
-        j = json.loads(r.text)
-        market_price = j["chart"]["result"][0]["meta"]["regularMarketPrice"]
-        logging.info(f"{symbol} is {market_price}")
-        return market_price
+        headers = {"User-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36"}
+        r = requests.get(url, headers=headers)
+        logging.info(r.text)
+        status_code = r.status_code
+        if (status_code == 200):
+            j = json.loads(r.text)
+            logging.debug(j)
+            market_price = j["chart"]["result"][0]["meta"]["regularMarketPrice"]
+            logging.debug(f"{symbol} is {market_price}")
+            return market_price
+        else:
+            logging.error(f"HTTP error {status_code}")
     except Exception as e:
         logging.error(f"Error reading price from {url}", exc_info=True)
 

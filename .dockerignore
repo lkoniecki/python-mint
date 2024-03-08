@@ -1,31 +1,3 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@lkoniecki 
-dynatrace-extensions
-/
-mockingbird
-Private
-Code
-Issues
-Pull requests
-Actions
-Projects
-Security
-Insights
-Settings
-mockingbird/.dockerignore
-@vduseev
-vduseev Initial implementation
-Latest commit 248a06b on 6 Jul
- History
- 1 contributor
-161 lines (132 sloc)  3.01 KB
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

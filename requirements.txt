@@ -1,4 +1,4 @@
-certifi==2026.1.4
+certifi==2026.2.25
 chardet==7.0.0
 idna==3.11
 requests==2.32.5
